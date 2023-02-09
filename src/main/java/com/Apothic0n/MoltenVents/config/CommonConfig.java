@@ -6,7 +6,7 @@ public class CommonConfig {
     public static ForgeConfigSpec.BooleanValue useLava;
     public static ForgeConfigSpec.ConfigValue<? extends Integer> ventRarity;
     public static ForgeConfigSpec.ConfigValue<? extends Integer> ventDepth;
-
+    public static ForgeConfigSpec.BooleanValue generateUnderwater;
 
     public static void registerCommonConfig(ForgeConfigSpec.Builder COMMON_BUILDER) {
         COMMON_BUILDER.comment("General settings for Molten Vents").push("common");
@@ -22,6 +22,10 @@ public class CommonConfig {
         ventDepth = COMMON_BUILDER
                 .comment("The depth of vents. When set below 10 the vents will stop generating immediately below the molten ore block, which is useful for specific cases such as when using the Stratospheric Expansion mod to prevent the vents from sticking through the bottom of the islands. Default: 100")
                 .define("ventDepth", 100);
+
+        generateUnderwater = COMMON_BUILDER
+                .comment("When true, vents will only generate underwater. Vent depth is limited to a maximum of 80 when this setting is enabled. Default: false")
+                .define("generateUnderwater", false);
 
         COMMON_BUILDER.pop();
     }

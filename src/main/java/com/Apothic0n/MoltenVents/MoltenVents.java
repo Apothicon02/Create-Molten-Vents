@@ -38,6 +38,10 @@ public class MoltenVents
             final Holder<PlacedFeature> initializeVeridium = VERIDIUM_VENT_PLACED;
             final Holder<PlacedFeature> initializeCrimsite = CRIMSITE_VENT_PLACED;
             final Holder<PlacedFeature> initializeOchrum = OCHRUM_VENT_PLACED;
+            final Holder<PlacedFeature> initializeAquaticAsurine = AQUATIC_ASURINE_VENT_PLACED;
+            final Holder<PlacedFeature> initializeAquaticVeridium = AQUATIC_VERIDIUM_VENT_PLACED;
+            final Holder<PlacedFeature> initializeAquaticCrimsite = AQUATIC_CRIMSITE_VENT_PLACED;
+            final Holder<PlacedFeature> initializeAquaticOchrum = AQUATIC_OCHRUM_VENT_PLACED;
         });
     }
 }

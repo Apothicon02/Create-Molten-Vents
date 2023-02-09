@@ -1,6 +1,7 @@
 package com.Apothic0n.MoltenVents.api.biome.features;
 
 import com.Apothic0n.MoltenVents.MoltenVents;
+import com.Apothic0n.MoltenVents.api.biome.features.types.AquaticMoltenVentFeature;
 import com.Apothic0n.MoltenVents.api.biome.features.types.MoltenVentFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.GeodeConfiguration;
@@ -16,7 +17,8 @@ public class MoltenVentsFeatureRegistry {
 
     public static final RegistryObject<Feature<SimpleBlockConfiguration>> MOLTEN_VENT = FEATURES.register("molten_vent", () ->
             new MoltenVentFeature(SimpleBlockConfiguration.CODEC));
-
+    public static final RegistryObject<Feature<SimpleBlockConfiguration>> AQUATIC_MOLTEN_VENT = FEATURES.register("aquatic_molten_vent", () ->
+            new AquaticMoltenVentFeature(SimpleBlockConfiguration.CODEC));
     public static void register(IEventBus eventBus) {
         FEATURES.register(eventBus);
     }
