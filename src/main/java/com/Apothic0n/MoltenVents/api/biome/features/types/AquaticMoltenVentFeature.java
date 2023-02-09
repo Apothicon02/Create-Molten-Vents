@@ -3,33 +3,19 @@ package com.Apothic0n.MoltenVents.api.biome.features.types;
 import com.Apothic0n.MoltenVents.api.biome.features.MoltenVentsFeatures;
 import com.Apothic0n.MoltenVents.config.CommonConfig;
 import com.Apothic0n.MoltenVents.core.objects.MoltenBlocks;
-import com.google.common.collect.Lists;
-import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.util.Mth;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.BuddingAmethystBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.levelgen.*;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.GeodeConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
-import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
-import net.minecraft.world.level.levelgen.synth.NormalNoise;
-import net.minecraft.world.level.material.FluidState;
 
-import java.util.List;
 import java.util.Random;
-import java.util.function.Predicate;
 
-public class MoltenVentFeature extends Feature<SimpleBlockConfiguration> {
-    public MoltenVentFeature(Codec<SimpleBlockConfiguration> pContext) {
+public class AquaticMoltenVentFeature extends Feature<SimpleBlockConfiguration> {
+    public AquaticMoltenVentFeature(Codec<SimpleBlockConfiguration> pContext) {
         super(pContext);
     }
 
@@ -42,9 +28,13 @@ public class MoltenVentFeature extends Feature<SimpleBlockConfiguration> {
         BlockState innerblock = Blocks.COAL_BLOCK.defaultBlockState();
         BlockState liquidblock = Blocks.LAVA.defaultBlockState();
         Integer ventDepth = CommonConfig.ventDepth.get();
-        Boolean disabled = CommonConfig.generateUnderwater.get();
+        Boolean enabled = CommonConfig.generateUnderwater.get();
 
-        if (!worldgenlevel.getBlockState(origin.below()).is(Blocks.WATER) && !disabled) {
+        if (ventDepth > 80) {
+            ventDepth = 80;
+        }
+
+        if (worldgenlevel.getBlockState(origin.above(2)).is(Blocks.WATER) && enabled) {
             if (outerBlock.is(MoltenVentsFeatures.Asurine)) {
                 innerblock = MoltenBlocks.DORMANT_ASURINE.get().defaultBlockState();
             } else if (outerBlock.is(MoltenVentsFeatures.Veridium)) {

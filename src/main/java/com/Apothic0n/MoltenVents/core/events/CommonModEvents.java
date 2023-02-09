@@ -19,17 +19,25 @@ public class CommonModEvents {
     public static void biomeLoading(@Nonnull BiomeLoadingEvent event) {
         Boolean addedFeature = false;
         if(!event.getCategory().equals(Biome.BiomeCategory.NETHER) && !event.getCategory().equals(Biome.BiomeCategory.THEEND) && event.getName().getNamespace().equals("minecraft")) {
-            event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, MoltenVentsFeatures.ASURINE_VENT_PLACED);
-            event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, MoltenVentsFeatures.VERIDIUM_VENT_PLACED);
-            event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, MoltenVentsFeatures.CRIMSITE_VENT_PLACED);
-            event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, MoltenVentsFeatures.OCHRUM_VENT_PLACED);
+            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, MoltenVentsFeatures.ASURINE_VENT_PLACED);
+            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, MoltenVentsFeatures.VERIDIUM_VENT_PLACED);
+            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, MoltenVentsFeatures.CRIMSITE_VENT_PLACED);
+            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, MoltenVentsFeatures.OCHRUM_VENT_PLACED);
+            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, MoltenVentsFeatures.AQUATIC_ASURINE_VENT_PLACED);
+            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, MoltenVentsFeatures.AQUATIC_VERIDIUM_VENT_PLACED);
+            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, MoltenVentsFeatures.AQUATIC_CRIMSITE_VENT_PLACED);
+            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, MoltenVentsFeatures.AQUATIC_OCHRUM_VENT_PLACED);
             addedFeature = true;
         }
         if (!addedFeature && event.getName().getNamespace().equals(CommonConfig.modName.get())) {
-            event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, MoltenVentsFeatures.ASURINE_VENT_PLACED);
-            event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, MoltenVentsFeatures.VERIDIUM_VENT_PLACED);
-            event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, MoltenVentsFeatures.CRIMSITE_VENT_PLACED);
-            event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, MoltenVentsFeatures.OCHRUM_VENT_PLACED);
+            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, MoltenVentsFeatures.ASURINE_VENT_PLACED);
+            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, MoltenVentsFeatures.VERIDIUM_VENT_PLACED);
+            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, MoltenVentsFeatures.CRIMSITE_VENT_PLACED);
+            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, MoltenVentsFeatures.OCHRUM_VENT_PLACED);
+            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, MoltenVentsFeatures.AQUATIC_ASURINE_VENT_PLACED);
+            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, MoltenVentsFeatures.AQUATIC_VERIDIUM_VENT_PLACED);
+            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, MoltenVentsFeatures.AQUATIC_CRIMSITE_VENT_PLACED);
+            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, MoltenVentsFeatures.AQUATIC_OCHRUM_VENT_PLACED);
         }
     }
 }
