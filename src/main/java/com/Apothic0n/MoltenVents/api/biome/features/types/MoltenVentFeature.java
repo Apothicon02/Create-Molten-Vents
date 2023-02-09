@@ -10,6 +10,7 @@ import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BuddingAmethystBlock;
@@ -35,7 +36,7 @@ public class MoltenVentFeature extends Feature<SimpleBlockConfiguration> {
 
     public boolean place(FeaturePlaceContext<SimpleBlockConfiguration> pContext) {
         SimpleBlockConfiguration ventConfiguration = pContext.config();
-        Random random = pContext.random();
+        RandomSource random = pContext.random();
         BlockPos origin = pContext.origin();
         WorldGenLevel worldgenlevel = pContext.level();
         BlockState outerBlock = ventConfiguration.toPlace().getState(random, origin);
