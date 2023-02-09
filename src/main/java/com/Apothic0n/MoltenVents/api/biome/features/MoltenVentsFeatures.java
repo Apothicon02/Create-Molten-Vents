@@ -29,6 +29,7 @@ public class MoltenVentsFeatures {
     public static final Block Veridium = Registry.BLOCK.get(new ResourceLocation("create", "veridium"));
     public static final Block Crimsite = Registry.BLOCK.get(new ResourceLocation("create", "crimsite"));
     public static final Block Ochrum = Registry.BLOCK.get(new ResourceLocation("create", "ochrum"));
+    public static final Block RequiredLiquid = Registry.BLOCK.get(new ResourceLocation(CommonConfig.requiredLiquid.get()));
 
     //ConfiguredFeatures
     public static final Holder<ConfiguredFeature<SimpleBlockConfiguration, ?>> ASURINE_VENT_CONFIGURED = FeatureUtils.register("molten_vents:asurine_vent", MoltenVentsFeatureRegistry.MOLTEN_VENT.get(),

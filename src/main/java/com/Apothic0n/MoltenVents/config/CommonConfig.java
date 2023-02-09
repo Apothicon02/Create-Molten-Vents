@@ -3,17 +3,18 @@ package com.Apothic0n.MoltenVents.config;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 public class CommonConfig {
-    public static ForgeConfigSpec.BooleanValue useLava;
+    public static ForgeConfigSpec.BooleanValue useSource;
     public static ForgeConfigSpec.ConfigValue<? extends Integer> ventRarity;
     public static ForgeConfigSpec.ConfigValue<? extends Integer> ventDepth;
     public static ForgeConfigSpec.BooleanValue generateUnderwater;
+    public static ForgeConfigSpec.ConfigValue<? extends String> requiredLiquid;
 
     public static void registerCommonConfig(ForgeConfigSpec.Builder COMMON_BUILDER) {
         COMMON_BUILDER.comment("General settings for Molten Vents").push("common");
 
-        useLava = COMMON_BUILDER
-                .comment("When true, orestone blocks will only replace lava source blocks. This means that you will require a constant supply of lava to generate orestones. Default: true")
-                .define("useLava", true);
+        useSource = COMMON_BUILDER
+                .comment("When true, orestone blocks will only replace liquid source blocks. This means that you will require a constant supply of liquid to generate orestones. Default: true")
+                .define("useLiquid", true);
 
         ventRarity = COMMON_BUILDER
                 .comment("The rarity of vents. The higher the number the rarer the vents. Default: 690")
@@ -26,6 +27,10 @@ public class CommonConfig {
         generateUnderwater = COMMON_BUILDER
                 .comment("When true, vents will only generate underwater. Vent depth is limited to a maximum of 80 when this setting is enabled. Default: false")
                 .define("generateUnderwater", false);
+
+        requiredLiquid = COMMON_BUILDER
+                .comment("The name of the liquid that molten orestones will convert into orestones. Important: For modded liquids you must have the mod's technical id such as 'tconstruct' instead of 'Tinkers Construct'. Default: 'minecraft:lava'")
+                .define("requiredLiquid", "minecraft:lava");
 
         COMMON_BUILDER.pop();
     }
