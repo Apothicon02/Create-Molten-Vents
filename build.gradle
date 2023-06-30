@@ -30,7 +30,7 @@ apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'org.spongepowered.mixin'
 
 
-version = '0.1.3'
+version = '0.1.4'
 group = 'com.Apothic0n.MoltenVents' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'molten_vents'
 

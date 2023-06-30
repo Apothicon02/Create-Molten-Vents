@@ -20,7 +20,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.injection.Constant;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static net.minecraft.world.level.block.Block.UPDATE_ALL;
 
@@ -29,7 +31,7 @@ public class OrestoneBlockEntity extends BlockEntity
     public static int spreadDistance = 5; //Max 5
     private static final RandomSource random = RandomSource.create();
 
-    private static long lastTick = 0;
+    private static final Map<BlockPos, Long> lastTick = new HashMap<>();
 
     public OrestoneBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(MoltenVentsRegistry.ORESTONE_BLOCK_ENTITY.get(), blockPos, blockState);
@@ -77,10 +79,12 @@ public class OrestoneBlockEntity extends BlockEntity
 
         if (!CommonConfig.useSource.get())
         {
-            if (level.getGameTime() - lastTick < CommonConfig.flowingConversionSpeed.get().intValue())
+            var last = lastTick.getOrDefault(blockPos, 0L);
+
+            if (level.getGameTime() - last < CommonConfig.flowingConversionSpeed.get().intValue())
                 return;
 
-            lastTick  = level.getGameTime();
+            lastTick.put(blockPos, level.getGameTime());
         }
 
 
