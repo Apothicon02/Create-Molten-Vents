@@ -1,4 +1,4 @@
-package com.Apothic0n.MoltenVents.core.objects;
+package com.Apothic0n.MoltenVents.core;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -8,22 +8,20 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
 
-public class DormantAsurineBlock extends Block implements EntityBlock {
-    public DormantAsurineBlock(Properties properties) {
+public class OrestoneBlock extends Block implements EntityBlock
+{
+    public OrestoneBlock(Properties properties) {
         super(properties);
     }
 
-    @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return blockEntityType == MoltenBlockEntities.DORMANT_ASURINE_BLOCK_ENTITY.get() ? DormantAsurineBlockEntity::tick : null;
+        return blockEntityType == MoltenVentsRegistry.ORESTONE_BLOCK_ENTITY.get() ? OrestoneBlockEntity::tick : null;
     }
 
-    @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return MoltenBlockEntities.DORMANT_ASURINE_BLOCK_ENTITY.get().create(blockPos, blockState);
+        return MoltenVentsRegistry.ORESTONE_BLOCK_ENTITY.get().create(blockPos, blockState);
     }
 }

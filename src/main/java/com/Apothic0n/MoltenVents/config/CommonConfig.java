@@ -4,6 +4,8 @@ import net.minecraftforge.common.ForgeConfigSpec;
 
 public class CommonConfig {
     public static ForgeConfigSpec.BooleanValue useSource;
+    public static ForgeConfigSpec.ConfigValue<? extends Integer> flowingConversionSpeed;
+    public static ForgeConfigSpec.BooleanValue fillWithLava;
     public static ForgeConfigSpec.ConfigValue<? extends Integer> ventRarity;
     public static ForgeConfigSpec.ConfigValue<? extends Integer> ventDepth;
     public static ForgeConfigSpec.BooleanValue generateUnderwater;
@@ -13,8 +15,16 @@ public class CommonConfig {
         COMMON_BUILDER.comment("General settings for Molten Vents").push("common");
 
         useSource = COMMON_BUILDER
-                .comment("When true, orestone blocks will only replace liquid source blocks. This means that you will require a constant supply of liquid to generate orestones. Default: true")
-                .define("useLiquid", true);
+                .comment("When true, orestone blocks will only replace liquid source blocks. This means that you will require a constant supply of liquid to generate orestones. If turned off, flowing blocks will be converted at a much slower rate. Default: true")
+                .define("useSourceBlocks", false);
+
+        flowingConversionSpeed = COMMON_BUILDER
+                .comment("The number of ticks to wait before flowing lava is converted to orestone. Default: 300 (15 seconds) (0 - 1000)")
+                .define("flowingConversionSpeed", 300);
+
+        fillWithLava = COMMON_BUILDER
+                .comment("When true, vents will be filled with lava and decorated with Blackstone. Default: true")
+                .define("fillWithLava", true);
 
         ventRarity = COMMON_BUILDER
                 .comment("The rarity of vents. The higher the number the rarer the vents. Default: 690")
