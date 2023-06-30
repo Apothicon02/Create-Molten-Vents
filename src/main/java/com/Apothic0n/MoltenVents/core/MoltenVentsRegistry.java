@@ -104,7 +104,7 @@ public class MoltenVentsRegistry
         public void registerFeatures() {
             var blockConfig = new SimpleBlockConfiguration(BlockStateProvider.simple(GetCreateBlock()));
             ventConfigured = FeatureUtils.register("molten_vents:" + name + "_vent", MOLTEN_VENT.get(), blockConfig);
-            aquaticVentConfigured = FeatureUtils.register("molten_vents:aquatic_" + name + "_vent", MOLTEN_VENT.get(), blockConfig);
+            aquaticVentConfigured = FeatureUtils.register("molten_vents:aquatic_" + name + "_vent", AQUATIC_MOLTEN_VENT.get(), blockConfig);
 
             ventPlaced = PlacementUtils.register("molten_vents:" + name + "_vent", ventConfigured, RarityFilter.onAverageOnceEvery(CommonConfig.ventRarity.get()), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome());
             aquaticVentPlaced = PlacementUtils.register("molten_vents:aquatic_" + name + "_vent", aquaticVentConfigured, RarityFilter.onAverageOnceEvery(CommonConfig.ventRarity.get()), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_OCEAN_FLOOR, BiomeFilter.biome());

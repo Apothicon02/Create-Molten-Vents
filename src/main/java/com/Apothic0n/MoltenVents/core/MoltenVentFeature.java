@@ -5,18 +5,14 @@ import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
-import net.minecraft.data.worldgen.StructureSets;
-import net.minecraft.data.worldgen.Structures;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.StructureTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.PointedDripstoneBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DripstoneThickness;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
@@ -35,10 +31,6 @@ public class MoltenVentFeature extends Feature<SimpleBlockConfiguration> {
         BlockState outerBlock = pContext.config().toPlace().getState(pContext.random(), pContext.origin());
         BlockState innerblock = MoltenVentsRegistry.OreStone.FromBlock(outerBlock.getBlock()).dormant.get().defaultBlockState();
         BlockState liquidblock = Blocks.LAVA.defaultBlockState();
-
-        // fix for generating in villages
-        //if (pContext.level().getLevel().findNearestMapStructure(StructureTags.VILLAGE, pContext.origin(), 1, false) != null)
-        //    return false;
 
         if (!shouldGenerate(pContext))
             return false;
@@ -71,18 +63,26 @@ public class MoltenVentFeature extends Feature<SimpleBlockConfiguration> {
     }
 
     public boolean shouldGenerate(FeaturePlaceContext<SimpleBlockConfiguration> pContext) {
-        if (CommonConfig.generateUnderwater.get())
-            return false;
-
-        for (int y = -1; y <= 1; y++)
-        for (int z = -1; z <= 1; z++)
-        for (int x = -1; x <= 1; x++)
-        {
-            if (pContext.level().getBlockState(pContext.origin().relative(Direction.Axis.Y, y * 3).relative(Direction.Axis.X, x * 3).relative(Direction.Axis.Z, z * 3)).is(Blocks.WATER))
-                return false;
+        Boolean valueToReturn = false;
+        if (!CommonConfig.generateUnderwater.get()) {
+            BlockPos origin = pContext.origin();
+            valueToReturn = true;
+            if (pContext.level().getBlockState(origin.above(4).north(5)).is(Blocks.WATER) || //Prevent from generating underwater
+                    pContext.level().getBlockState(origin.above(4).east(5)).is(Blocks.WATER) ||
+                    pContext.level().getBlockState(origin.above(4).south(5)).is(Blocks.WATER) ||
+                    pContext.level().getBlockState(origin.above(4).west(5)).is(Blocks.WATER) ||
+                    pContext.level().getBlockState(origin.below(4).north(5)).is(Blocks.AIR) || //Prevent from generating on ledges
+                    pContext.level().getBlockState(origin.below(4).east(5)).is(Blocks.AIR) ||
+                    pContext.level().getBlockState(origin.below(4).south(5)).is(Blocks.AIR) ||
+                    pContext.level().getBlockState(origin.below(4).west(5)).is(Blocks.AIR) ||
+                    pContext.level().getBlockState(origin.below(1).north(5)).is(Blocks.WATER) || //Prevent from generating on the surface of water
+                    pContext.level().getBlockState(origin.below(1).east(5)).is(Blocks.WATER) ||
+                    pContext.level().getBlockState(origin.below(1).south(5)).is(Blocks.WATER) ||
+                    pContext.level().getBlockState(origin.below(1).west(5)).is(Blocks.WATER)) {
+                valueToReturn = false;
+            }
         }
-
-        return true;
+        return valueToReturn;
     }
 
     public int getVentDepth() {

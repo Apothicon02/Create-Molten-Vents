@@ -30,7 +30,7 @@ apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'org.spongepowered.mixin'
 
 
-version = '0.1.4'
+version = '0.2.0'
 group = 'com.Apothic0n.MoltenVents' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'molten_vents'
 
@@ -191,12 +191,6 @@ dependencies {
     implementation fg.deobf("curse.maven:create-328085:4371809")
     //flywheel
     implementation fg.deobf("curse.maven:flywheel-486392:4341471")
-
-    runtimeOnly fg.deobf("curse.maven:terralith-513688:4549496")
-    runtimeOnly fg.deobf("curse.maven:spark-361579:4505309")
-    runtimeOnly fg.deobf("curse.maven:xaeros-world-map-317780:4594982")
-    runtimeOnly fg.deobf("curse.maven:oculus-581495:4578731")
-    runtimeOnly fg.deobf("curse.maven:rubidium-574856:4568727")
 
     // Real mod deobf dependency examples - these get remapped to your current mappings
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api") // Adds JEI API as a compile dependency

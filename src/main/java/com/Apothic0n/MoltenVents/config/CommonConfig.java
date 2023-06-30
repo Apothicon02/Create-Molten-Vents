@@ -16,10 +16,10 @@ public class CommonConfig {
 
         useSource = COMMON_BUILDER
                 .comment("When true, orestone blocks will only replace liquid source blocks. This means that you will require a constant supply of liquid to generate orestones. If turned off, flowing blocks will be converted at a much slower rate. Default: true")
-                .define("useSourceBlocks", false);
+                .define("useSourceBlocks", true);
 
         flowingConversionSpeed = COMMON_BUILDER
-                .comment("The number of ticks to wait before flowing lava is converted to orestone. Default: 300 (15 seconds) (0 - 1000)")
+                .comment("The number of ticks to wait before flowing lava is converted to orestone, effective only if useSourceBlocks is set to false. Default: 300 (15 seconds) (0 - 1000)")
                 .define("flowingConversionSpeed", 300);
 
         fillWithLava = COMMON_BUILDER
