@@ -1,32 +1,17 @@
 package com.Apothic0n.MoltenVents.api.biome.features.types;
 
-import com.Apothic0n.MoltenVents.api.biome.features.MoltenVentsFeatures;
+import com.Apothic0n.MoltenVents.api.biome.features.MoltenVentsConfiguredFeatures;
 import com.Apothic0n.MoltenVents.config.CommonConfig;
 import com.Apothic0n.MoltenVents.core.objects.MoltenBlocks;
-import com.google.common.collect.Lists;
-import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.BuddingAmethystBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.levelgen.*;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.GeodeConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
-import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
-import net.minecraft.world.level.levelgen.synth.NormalNoise;
-import net.minecraft.world.level.material.FluidState;
-
-import java.util.List;
-import java.util.Random;
-import java.util.function.Predicate;
 
 public class MoltenVentFeature extends Feature<SimpleBlockConfiguration> {
     public MoltenVentFeature(Codec<SimpleBlockConfiguration> pContext) {
@@ -35,7 +20,7 @@ public class MoltenVentFeature extends Feature<SimpleBlockConfiguration> {
 
     public boolean place(FeaturePlaceContext<SimpleBlockConfiguration> pContext) {
         SimpleBlockConfiguration ventConfiguration = pContext.config();
-        Random random = pContext.random();
+        RandomSource random = pContext.random();
         BlockPos origin = pContext.origin();
         WorldGenLevel worldgenlevel = pContext.level();
         BlockState outerBlock = ventConfiguration.toPlace().getState(random, origin);
@@ -45,13 +30,13 @@ public class MoltenVentFeature extends Feature<SimpleBlockConfiguration> {
         Boolean disabled = CommonConfig.generateUnderwater.get();
 
         if (!worldgenlevel.getBlockState(origin.below()).is(Blocks.WATER) && !disabled) {
-            if (outerBlock.is(MoltenVentsFeatures.Asurine)) {
+            if (outerBlock.is(MoltenBlocks.Asurine)) {
                 innerblock = MoltenBlocks.DORMANT_ASURINE.get().defaultBlockState();
-            } else if (outerBlock.is(MoltenVentsFeatures.Veridium)) {
+            } else if (outerBlock.is(MoltenBlocks.Veridium)) {
                 innerblock = MoltenBlocks.DORMANT_VERIDIUM.get().defaultBlockState();
-            } else if (outerBlock.is(MoltenVentsFeatures.Crimsite)) {
+            } else if (outerBlock.is(MoltenBlocks.Crimsite)) {
                 innerblock = MoltenBlocks.DORMANT_CRIMSITE.get().defaultBlockState();
-            } else if (outerBlock.is(MoltenVentsFeatures.Ochrum)) {
+            } else if (outerBlock.is(MoltenBlocks.Ochrum)) {
                 innerblock = MoltenBlocks.DORMANT_OCHRUM.get().defaultBlockState();
             }
 

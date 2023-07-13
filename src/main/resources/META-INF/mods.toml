@@ -54,18 +54,12 @@ Adds molten vents for renewable "oreblocks" from create.
     modId="minecraft"
     mandatory=true
 # This version range declares a minimum of the current minecraft version up to but not including the next major version
-    versionRange="[1.18.2,1.19)"
+    versionRange="[1.20,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.molten_vents]]
     modId="create"
     mandatory=true
-    versionRange="[v0.5c,)"
+    versionRange="[v0.5.1c,)"
     ordering="AFTER"
-    side="BOTH"
-[[dependencies.molten_vents]]
-    modId="flywheel"
-    mandatory=true
-    versionRange="[0.6.4,)"
-    ordering="NONE"
     side="BOTH"

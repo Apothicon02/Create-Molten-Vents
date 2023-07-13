@@ -1,6 +1,9 @@
 package com.Apothic0n.MoltenVents.core.objects;
 
 import com.Apothic0n.MoltenVents.MoltenVents;
+import com.Apothic0n.MoltenVents.config.CommonConfig;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
@@ -39,6 +42,11 @@ public final class MoltenBlocks {
     public static final RegistryObject<Block> DORMANT_OCHRUM = BLOCKS.register("dormant_ochrum", () ->
             new DormantOchrumBlock(BlockBehaviour.Properties.copy(Blocks.TUFF).explosionResistance(1200).sound(SoundType.TUFF).lightLevel((brightness) -> {return 5;})));
 
+    public static final Block Asurine = BuiltInRegistries.BLOCK.get(new ResourceLocation("create", "asurine"));
+    public static final Block Veridium = BuiltInRegistries.BLOCK.get(new ResourceLocation("create", "veridium"));
+    public static final Block Crimsite = BuiltInRegistries.BLOCK.get(new ResourceLocation("create", "crimsite"));
+    public static final Block Ochrum = BuiltInRegistries.BLOCK.get(new ResourceLocation("create", "ochrum"));
+    public static final Block RequiredLiquid = BuiltInRegistries.BLOCK.get(new ResourceLocation(CommonConfig.requiredLiquid.get()));
     public static void register(IEventBus eventBus) {
         BLOCKS.register(eventBus);
     }

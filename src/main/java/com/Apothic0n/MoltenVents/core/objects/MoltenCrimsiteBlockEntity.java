@@ -1,6 +1,6 @@
 package com.Apothic0n.MoltenVents.core.objects;
 
-import com.Apothic0n.MoltenVents.api.biome.features.MoltenVentsFeatures;
+import com.Apothic0n.MoltenVents.api.biome.features.MoltenVentsConfiguredFeatures;
 import com.Apothic0n.MoltenVents.config.CommonConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -10,14 +10,13 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.Apothic0n.MoltenVents.api.biome.features.MoltenVentsFeatures.RequiredLiquid;
+import static com.Apothic0n.MoltenVents.core.objects.MoltenBlocks.RequiredLiquid;
 import static net.minecraft.world.level.block.Block.UPDATE_ALL;
 
 public class MoltenCrimsiteBlockEntity extends BlockEntity {
@@ -45,13 +44,13 @@ public class MoltenCrimsiteBlockEntity extends BlockEntity {
         BlockState[] contacts = {level.getBlockState(pos.above()), level.getBlockState(pos.below()), level.getBlockState(pos.north()), level.getBlockState(pos.east()), level.getBlockState(pos.south()), level.getBlockState(pos.west())};
         Boolean isTouchingCrimsite = false;
         for (int i = 0; i < contacts.length; ++i) { //Check each non-diagonal neighbor to see if it is crimsite
-            if (contacts[i].is(MoltenVentsFeatures.Crimsite) || contacts[i].is(MoltenBlocks.MOLTEN_CRIMSITE.get())) {
+            if (contacts[i].is(MoltenBlocks.Crimsite) || contacts[i].is(MoltenBlocks.MOLTEN_CRIMSITE.get())) {
                 isTouchingCrimsite = true;
             }
         }
-        if (isTouchingCrimsite && !CommonConfig.useSource.get() && level.getBlockState(pos).is(requiredLiquid) || isTouchingCrimsite && CommonConfig.useSource.get() && level.getBlockState(pos).is(requiredLiquid) && level.getBlockState(pos).getFluidState().isSource() || isTouchingCrimsite && level.getBlockState(pos).is(MoltenVentsFeatures.Crimsite)) {
+        if (isTouchingCrimsite && !CommonConfig.useSource.get() && level.getBlockState(pos).is(requiredLiquid) || isTouchingCrimsite && CommonConfig.useSource.get() && level.getBlockState(pos).is(requiredLiquid) && level.getBlockState(pos).getFluidState().isSource() || isTouchingCrimsite && level.getBlockState(pos).is(MoltenBlocks.Crimsite)) {
             if (!CommonConfig.useSource.get() && level.getBlockState(pos).is(requiredLiquid) || CommonConfig.useSource.get() && level.getBlockState(pos).is(requiredLiquid) && level.getBlockState(pos).getFluidState().isSource()) {
-                level.setBlock(pos, MoltenVentsFeatures.Crimsite.defaultBlockState(), UPDATE_ALL);
+                level.setBlock(pos, MoltenBlocks.Crimsite.defaultBlockState(), UPDATE_ALL);
                 level.playSound(null, pos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, 1.0f, 1.0f);
                 level.getServer().getLevel(level.getLevel().dimension()).sendParticles(ParticleTypes.LARGE_SMOKE, (double)pos.getX() + 0.5D, (double)pos.getY() + 0.25D, (double)pos.getZ() + 0.5D, 8, 0.5D, 0.25D, 0.5D, 0.0D);
             }
@@ -111,7 +110,7 @@ public class MoltenCrimsiteBlockEntity extends BlockEntity {
             for (int i = 0; i < lavaBlocks.size(); ++i) {
                 BlockPos lavaPos = lavaBlocks.get(i);
                 if (!CommonConfig.useSource.get() && level.getBlockState(lavaPos).is(requiredLiquid) || CommonConfig.useSource.get() && level.getBlockState(lavaPos).is(requiredLiquid) && level.getBlockState(lavaPos).getFluidState().isSource()) {
-                    level.setBlock(lavaPos, MoltenVentsFeatures.Crimsite.defaultBlockState(), UPDATE_ALL);
+                    level.setBlock(lavaPos, MoltenBlocks.Crimsite.defaultBlockState(), UPDATE_ALL);
                     level.playSound(null, lavaPos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, 1.0f, 1.0f);
                     level.getServer().getLevel(level.getLevel().dimension()).sendParticles(ParticleTypes.LARGE_SMOKE, (double)lavaPos.getX() + 0.5D, (double)lavaPos.getY() + 0.25D, (double)lavaPos.getZ() + 0.5D, 8, 0.5D, 0.25D, 0.5D, 0.0D);
                 }
@@ -128,7 +127,7 @@ public class MoltenCrimsiteBlockEntity extends BlockEntity {
         BlockPos[] contacts = {pos.above(), pos.below(), pos.north(), pos.east(), pos.south(), pos.west()};
         List<BlockPos> lavaBlocks = new ArrayList<>(List.of());
         for (int i = 0; i < contacts.length; ++i) { //Check each non-diagonal neighbor to see if it is crimsite
-            if (!CommonConfig.useSource.get() && level.getBlockState(contacts[i]).is(requiredLiquid) || CommonConfig.useSource.get() && level.getBlockState(contacts[i]).is(requiredLiquid) && level.getBlockState(contacts[i]).getFluidState().isSource() || level.getBlockState(contacts[i]).is(MoltenVentsFeatures.Crimsite)) {
+            if (!CommonConfig.useSource.get() && level.getBlockState(contacts[i]).is(requiredLiquid) || CommonConfig.useSource.get() && level.getBlockState(contacts[i]).is(requiredLiquid) && level.getBlockState(contacts[i]).getFluidState().isSource() || level.getBlockState(contacts[i]).is(MoltenBlocks.Crimsite)) {
                 lavaBlocks.add(contacts[i]);
             }
         }
