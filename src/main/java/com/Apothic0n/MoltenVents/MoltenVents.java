@@ -33,9 +33,7 @@ public class MoltenVents
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
-            final RegistrySetBuilder BUILDER = new RegistrySetBuilder();
-            BUILDER.add(Registries.CONFIGURED_FEATURE, MoltenVentsConfiguredFeatures::bootstrap);
-            BUILDER.add(Registries.PLACED_FEATURE, MoltenVentsPlacedFeatures::bootstrap);
+
         });
     }
 }

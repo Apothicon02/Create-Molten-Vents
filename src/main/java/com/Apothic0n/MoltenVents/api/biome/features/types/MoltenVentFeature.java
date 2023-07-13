@@ -1,6 +1,5 @@
 package com.Apothic0n.MoltenVents.api.biome.features.types;
 
-import com.Apothic0n.MoltenVents.api.biome.features.MoltenVentsConfiguredFeatures;
 import com.Apothic0n.MoltenVents.config.CommonConfig;
 import com.Apothic0n.MoltenVents.core.objects.MoltenBlocks;
 import com.mojang.serialization.Codec;
@@ -30,13 +29,13 @@ public class MoltenVentFeature extends Feature<SimpleBlockConfiguration> {
         Boolean disabled = CommonConfig.generateUnderwater.get();
 
         if (!worldgenlevel.getBlockState(origin.below()).is(Blocks.WATER) && !disabled) {
-            if (outerBlock.is(MoltenBlocks.Asurine)) {
+            if (outerBlock.is(MoltenBlocks.Asurine.get())) {
                 innerblock = MoltenBlocks.DORMANT_ASURINE.get().defaultBlockState();
-            } else if (outerBlock.is(MoltenBlocks.Veridium)) {
+            } else if (outerBlock.is(MoltenBlocks.Veridium.get())) {
                 innerblock = MoltenBlocks.DORMANT_VERIDIUM.get().defaultBlockState();
-            } else if (outerBlock.is(MoltenBlocks.Crimsite)) {
+            } else if (outerBlock.is(MoltenBlocks.Crimsite.get())) {
                 innerblock = MoltenBlocks.DORMANT_CRIMSITE.get().defaultBlockState();
-            } else if (outerBlock.is(MoltenBlocks.Ochrum)) {
+            } else if (outerBlock.is(MoltenBlocks.Ochrum.get())) {
                 innerblock = MoltenBlocks.DORMANT_OCHRUM.get().defaultBlockState();
             }
 

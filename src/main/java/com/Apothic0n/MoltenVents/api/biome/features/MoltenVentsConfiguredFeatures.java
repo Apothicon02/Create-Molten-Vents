@@ -33,14 +33,14 @@ public class MoltenVentsConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> AQUATIC_OCHRUM_VENT = createKey("aquatic_ochrum_vent");
 
     public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> context) {
-        context.register(ASURINE_VENT, new ConfiguredFeature<>(MOLTEN_VENT.get(), new SimpleBlockConfiguration(BlockStateProvider.simple(Asurine))));
-        context.register(VERIDIUM_VENT, new ConfiguredFeature<>(MOLTEN_VENT.get(), new SimpleBlockConfiguration(BlockStateProvider.simple(Veridium))));
-        context.register(CRIMSITE_VENT, new ConfiguredFeature<>(MOLTEN_VENT.get(), new SimpleBlockConfiguration(BlockStateProvider.simple(Crimsite))));
-        context.register(OCHRUM_VENT, new ConfiguredFeature<>(MOLTEN_VENT.get(), new SimpleBlockConfiguration(BlockStateProvider.simple(Ochrum))));
+        context.register(ASURINE_VENT, new ConfiguredFeature<>(MOLTEN_VENT.get(), new SimpleBlockConfiguration(BlockStateProvider.simple(Asurine.get()))));
+        context.register(VERIDIUM_VENT, new ConfiguredFeature<>(MOLTEN_VENT.get(), new SimpleBlockConfiguration(BlockStateProvider.simple(Veridium.get()))));
+        context.register(CRIMSITE_VENT, new ConfiguredFeature<>(MOLTEN_VENT.get(), new SimpleBlockConfiguration(BlockStateProvider.simple(Crimsite.get()))));
+        context.register(OCHRUM_VENT, new ConfiguredFeature<>(MOLTEN_VENT.get(), new SimpleBlockConfiguration(BlockStateProvider.simple(Ochrum.get()))));
 
-        context.register(AQUATIC_ASURINE_VENT, new ConfiguredFeature<>(AQUATIC_MOLTEN_VENT.get(), new SimpleBlockConfiguration(BlockStateProvider.simple(Asurine))));
-        context.register(AQUATIC_VERIDIUM_VENT, new ConfiguredFeature<>(AQUATIC_MOLTEN_VENT.get(), new SimpleBlockConfiguration(BlockStateProvider.simple(Veridium))));
-        context.register(AQUATIC_CRIMSITE_VENT, new ConfiguredFeature<>(AQUATIC_MOLTEN_VENT.get(), new SimpleBlockConfiguration(BlockStateProvider.simple(Crimsite))));
-        context.register(AQUATIC_OCHRUM_VENT, new ConfiguredFeature<>(AQUATIC_MOLTEN_VENT.get(), new SimpleBlockConfiguration(BlockStateProvider.simple(Ochrum))));
+        context.register(AQUATIC_ASURINE_VENT, new ConfiguredFeature<>(AQUATIC_MOLTEN_VENT.get(), new SimpleBlockConfiguration(BlockStateProvider.simple(Asurine.get()))));
+        context.register(AQUATIC_VERIDIUM_VENT, new ConfiguredFeature<>(AQUATIC_MOLTEN_VENT.get(), new SimpleBlockConfiguration(BlockStateProvider.simple(Veridium.get()))));
+        context.register(AQUATIC_CRIMSITE_VENT, new ConfiguredFeature<>(AQUATIC_MOLTEN_VENT.get(), new SimpleBlockConfiguration(BlockStateProvider.simple(Crimsite.get()))));
+        context.register(AQUATIC_OCHRUM_VENT, new ConfiguredFeature<>(AQUATIC_MOLTEN_VENT.get(), new SimpleBlockConfiguration(BlockStateProvider.simple(Ochrum.get()))));
     }
 }

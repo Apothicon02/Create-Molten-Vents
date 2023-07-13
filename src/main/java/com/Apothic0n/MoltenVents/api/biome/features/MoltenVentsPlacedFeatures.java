@@ -28,15 +28,14 @@ public class MoltenVentsPlacedFeatures {
     public static void bootstrap(BootstapContext<PlacedFeature> context) {
         HolderGetter<ConfiguredFeature<?, ?>> holderGetter = context.lookup(Registries.CONFIGURED_FEATURE);
 
-        context.register(ASURINE_VENT_CHECKED, new PlacedFeature(holderGetter.getOrThrow(ASURINE_VENT), List.of(RarityFilter.onAverageOnceEvery(CommonConfig.ventRarity.get()), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())));
-        context.register(VERIDIUM_VENT_CHECKED, new PlacedFeature(holderGetter.getOrThrow(VERIDIUM_VENT), List.of(RarityFilter.onAverageOnceEvery(CommonConfig.ventRarity.get()), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())));
-        context.register(CRIMSITE_VENT_CHECKED, new PlacedFeature(holderGetter.getOrThrow(CRIMSITE_VENT), List.of(RarityFilter.onAverageOnceEvery(CommonConfig.ventRarity.get()), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())));
-        context.register(OCHRUM_VENT_CHECKED, new PlacedFeature(holderGetter.getOrThrow(OCHRUM_VENT), List.of(RarityFilter.onAverageOnceEvery(CommonConfig.ventRarity.get()), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())));
+        context.register(ASURINE_VENT_CHECKED, new PlacedFeature(holderGetter.getOrThrow(ASURINE_VENT), List.of(RarityFilter.onAverageOnceEvery(690), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())));
+        context.register(VERIDIUM_VENT_CHECKED, new PlacedFeature(holderGetter.getOrThrow(VERIDIUM_VENT), List.of(RarityFilter.onAverageOnceEvery(690), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())));
+        context.register(CRIMSITE_VENT_CHECKED, new PlacedFeature(holderGetter.getOrThrow(CRIMSITE_VENT), List.of(RarityFilter.onAverageOnceEvery(690), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())));
+        context.register(OCHRUM_VENT_CHECKED, new PlacedFeature(holderGetter.getOrThrow(OCHRUM_VENT), List.of(RarityFilter.onAverageOnceEvery(690), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())));
 
-        context.register(AQUATIC_ASURINE_VENT_CHECKED, new PlacedFeature(holderGetter.getOrThrow(AQUATIC_ASURINE_VENT), List.of(RarityFilter.onAverageOnceEvery(CommonConfig.ventRarity.get()), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())));
-        context.register(AQUATIC_VERIDIUM_VENT_CHECKED, new PlacedFeature(holderGetter.getOrThrow(AQUATIC_VERIDIUM_VENT), List.of(RarityFilter.onAverageOnceEvery(CommonConfig.ventRarity.get()), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())));
-        context.register(AQUATIC_CRIMSITE_VENT_CHECKED, new PlacedFeature(holderGetter.getOrThrow(AQUATIC_CRIMSITE_VENT), List.of(RarityFilter.onAverageOnceEvery(CommonConfig.ventRarity.get()), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())));
-        context.register(AQUATIC_OCHRUM_VENT_CHECKED, new PlacedFeature(holderGetter.getOrThrow(AQUATIC_OCHRUM_VENT), List.of(RarityFilter.onAverageOnceEvery(CommonConfig.ventRarity.get()), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())));
-
+        context.register(AQUATIC_ASURINE_VENT_CHECKED, new PlacedFeature(holderGetter.getOrThrow(AQUATIC_ASURINE_VENT), List.of(RarityFilter.onAverageOnceEvery(690), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())));
+        context.register(AQUATIC_VERIDIUM_VENT_CHECKED, new PlacedFeature(holderGetter.getOrThrow(AQUATIC_VERIDIUM_VENT), List.of(RarityFilter.onAverageOnceEvery(690), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())));
+        context.register(AQUATIC_CRIMSITE_VENT_CHECKED, new PlacedFeature(holderGetter.getOrThrow(AQUATIC_CRIMSITE_VENT), List.of(RarityFilter.onAverageOnceEvery(690), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())));
+        context.register(AQUATIC_OCHRUM_VENT_CHECKED, new PlacedFeature(holderGetter.getOrThrow(AQUATIC_OCHRUM_VENT), List.of(RarityFilter.onAverageOnceEvery(690), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome())));
     }
 }

@@ -13,6 +13,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.function.Supplier;
+
 public final class MoltenBlocks {
     private MoltenBlocks() {}
 
@@ -42,11 +44,10 @@ public final class MoltenBlocks {
     public static final RegistryObject<Block> DORMANT_OCHRUM = BLOCKS.register("dormant_ochrum", () ->
             new DormantOchrumBlock(BlockBehaviour.Properties.copy(Blocks.TUFF).explosionResistance(1200).sound(SoundType.TUFF).lightLevel((brightness) -> {return 5;})));
 
-    public static final Block Asurine = BuiltInRegistries.BLOCK.get(new ResourceLocation("create", "asurine"));
-    public static final Block Veridium = BuiltInRegistries.BLOCK.get(new ResourceLocation("create", "veridium"));
-    public static final Block Crimsite = BuiltInRegistries.BLOCK.get(new ResourceLocation("create", "crimsite"));
-    public static final Block Ochrum = BuiltInRegistries.BLOCK.get(new ResourceLocation("create", "ochrum"));
-    public static final Block RequiredLiquid = BuiltInRegistries.BLOCK.get(new ResourceLocation(CommonConfig.requiredLiquid.get()));
+    public static final Supplier<Block> Asurine = () -> BuiltInRegistries.BLOCK.get(new ResourceLocation("create", "asurine"));
+    public static final Supplier<Block> Veridium = () -> BuiltInRegistries.BLOCK.get(new ResourceLocation("create", "veridium"));
+    public static final Supplier<Block> Crimsite = () -> BuiltInRegistries.BLOCK.get(new ResourceLocation("create", "crimsite"));
+    public static final Supplier<Block> Ochrum = () -> BuiltInRegistries.BLOCK.get(new ResourceLocation("create", "ochrum"));
     public static void register(IEventBus eventBus) {
         BLOCKS.register(eventBus);
     }

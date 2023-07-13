@@ -34,13 +34,13 @@ public class AquaticMoltenVentFeature extends Feature<SimpleBlockConfiguration> 
         }
 
         if (worldgenlevel.getBlockState(origin.above(2)).is(Blocks.WATER) && enabled) {
-            if (outerBlock.is(MoltenBlocks.Asurine)) {
+            if (outerBlock.is(MoltenBlocks.Asurine.get())) {
                 innerblock = MoltenBlocks.DORMANT_ASURINE.get().defaultBlockState();
-            } else if (outerBlock.is(MoltenBlocks.Veridium)) {
+            } else if (outerBlock.is(MoltenBlocks.Veridium.get())) {
                 innerblock = MoltenBlocks.DORMANT_VERIDIUM.get().defaultBlockState();
-            } else if (outerBlock.is(MoltenBlocks.Crimsite)) {
+            } else if (outerBlock.is(MoltenBlocks.Crimsite.get())) {
                 innerblock = MoltenBlocks.DORMANT_CRIMSITE.get().defaultBlockState();
-            } else if (outerBlock.is(MoltenBlocks.Ochrum)) {
+            } else if (outerBlock.is(MoltenBlocks.Ochrum.get())) {
                 innerblock = MoltenBlocks.DORMANT_OCHRUM.get().defaultBlockState();
             }
 
