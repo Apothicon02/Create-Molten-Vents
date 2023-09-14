@@ -61,5 +61,5 @@ Adds molten vents for renewable "oreblocks" from create.
     modId="create"
     mandatory=true
     versionRange="[v0.5.1c,)"
-    ordering="AFTER"
+    ordering="BEFORE"
     side="BOTH"

@@ -20,7 +20,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 
 
-version = '0.3.0'
+version = '2.0.0'
 group = 'com.Apothic0n.MoltenVents' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'molten_vents'
 
@@ -176,13 +176,9 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.20.1-47.1.0'
 
     // create
-    implementation fg.deobf("curse.maven:create-328085:4625535")
+    implementation fg.deobf("curse.maven:create-328085:4626108")
     // rubidium
     runtimeOnly fg.deobf("curse.maven:rubidium-574856:4573226")
-    // rubidium extra
-    runtimeOnly fg.deobf("curse.maven:rubidium-extra-654373:4574757")
-    // textrues rubidium options
-    runtimeOnly fg.deobf("curse.maven:textrues-rubidium-options-663125:4581832")
     // oculus
     runtimeOnly fg.deobf("curse.maven:oculus-581495:4578741")
     // Real mod deobf dependency examples - these get remapped to your current mappings

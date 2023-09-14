@@ -1,7 +1,6 @@
 package com.Apothic0n.MoltenVents.api.biome.features.types;
 
-import com.Apothic0n.MoltenVents.config.CommonConfig;
-import com.Apothic0n.MoltenVents.core.objects.MoltenBlocks;
+import com.Apothic0n.MoltenVents.api.biome.features.configurations.MoltenVentConfiguration;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -10,232 +9,169 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
-public class MoltenVentFeature extends Feature<SimpleBlockConfiguration> {
-    public MoltenVentFeature(Codec<SimpleBlockConfiguration> pContext) {
+import javax.annotation.Nullable;
+
+import static net.minecraft.world.level.block.Block.UPDATE_ALL;
+
+public class MoltenVentFeature extends Feature<MoltenVentConfiguration> {
+    public MoltenVentFeature(Codec<MoltenVentConfiguration> pContext) {
         super(pContext);
     }
 
-    public boolean place(FeaturePlaceContext<SimpleBlockConfiguration> pContext) {
-        SimpleBlockConfiguration ventConfiguration = pContext.config();
+    public boolean place(FeaturePlaceContext<MoltenVentConfiguration> pContext) {
+        MoltenVentConfiguration ventConfiguration = pContext.config();
         RandomSource random = pContext.random();
         BlockPos origin = pContext.origin();
-        WorldGenLevel worldgenlevel = pContext.level();
-        BlockState outerBlock = ventConfiguration.toPlace().getState(random, origin);
-        BlockState innerblock = Blocks.COAL_BLOCK.defaultBlockState();
-        BlockState liquidblock = Blocks.LAVA.defaultBlockState();
-        Integer ventDepth = CommonConfig.ventDepth.get();
-        Boolean disabled = CommonConfig.generateUnderwater.get();
+        WorldGenLevel worldGenLevel = pContext.level();
+        BlockStateProvider decorativeBlock = ventConfiguration.getDecorativeBlock();
+        BlockStateProvider outerBlock = ventConfiguration.getOuterBlock();
+        BlockStateProvider innerBlock = ventConfiguration.getInnerBlock();
+        BlockStateProvider liquidBlock = ventConfiguration.getLiquidBlock();
+        Boolean underwater = ventConfiguration.underwater;
+        int depth = ventConfiguration.getDepth().sample(random);
+        boolean suitableEnvironment = false;
 
-        if (!worldgenlevel.getBlockState(origin.below()).is(Blocks.WATER) && !disabled) {
-            if (outerBlock.is(MoltenBlocks.Asurine.get())) {
-                innerblock = MoltenBlocks.DORMANT_ASURINE.get().defaultBlockState();
-            } else if (outerBlock.is(MoltenBlocks.Veridium.get())) {
-                innerblock = MoltenBlocks.DORMANT_VERIDIUM.get().defaultBlockState();
-            } else if (outerBlock.is(MoltenBlocks.Crimsite.get())) {
-                innerblock = MoltenBlocks.DORMANT_CRIMSITE.get().defaultBlockState();
-            } else if (outerBlock.is(MoltenBlocks.Ochrum.get())) {
-                innerblock = MoltenBlocks.DORMANT_OCHRUM.get().defaultBlockState();
-            }
+        if (depth > 80 && underwater) {
+            depth = 80;
+        }
 
-            worldgenlevel.setBlock(origin.above().north(3).east(), outerBlock, 3);
-            worldgenlevel.setBlock(origin.above().north(3).west(), outerBlock, 3);
-            worldgenlevel.setBlock(origin.above().south(3).east(), outerBlock, 3);
-            worldgenlevel.setBlock(origin.above().north().east(3), outerBlock, 3);
-            worldgenlevel.setBlock(origin.above().south().east(3), outerBlock, 3);
-            worldgenlevel.setBlock(origin.above().south().west(3), outerBlock, 3);
+        if (underwater && worldGenLevel.getBlockState(origin.above(2)).is(Blocks.WATER)) {
+            suitableEnvironment = true;
+        } else if (!underwater && !worldGenLevel.getBlockState(origin.below()).is(Blocks.WATER)) {
+            suitableEnvironment = true;
+        }
 
-
-
-            worldgenlevel.setBlock(origin.north(3), outerBlock, 3);
-            worldgenlevel.setBlock(origin.east(3), outerBlock, 3);
-            worldgenlevel.setBlock(origin.south(3), outerBlock, 3);
-            worldgenlevel.setBlock(origin.west(3), outerBlock, 3);
-            worldgenlevel.setBlock(origin.north(3).east(), outerBlock, 3);
-            worldgenlevel.setBlock(origin.north(3).west(), outerBlock, 3);
-            worldgenlevel.setBlock(origin.south(3).east(), outerBlock, 3);
-            worldgenlevel.setBlock(origin.south(3).west(), outerBlock, 3);
-            worldgenlevel.setBlock(origin.north().east(3), outerBlock, 3);
-            worldgenlevel.setBlock(origin.north().west(3), outerBlock, 3);
-            worldgenlevel.setBlock(origin.south().east(3), outerBlock, 3);
-            worldgenlevel.setBlock(origin.south().west(3), outerBlock, 3);
-            worldgenlevel.setBlock(origin.north(2).east(2), outerBlock, 3);
-            worldgenlevel.setBlock(origin.north(2).west(2), outerBlock, 3);
-            worldgenlevel.setBlock(origin.south(2).east(2), outerBlock, 3);
-            worldgenlevel.setBlock(origin.south(2).west(2), outerBlock, 3);
-            worldgenlevel.setBlock(origin.north(3).east(2), outerBlock, 3);
-            worldgenlevel.setBlock(origin.north(3).west(2), outerBlock, 3);
-            worldgenlevel.setBlock(origin.south(3).east(2), outerBlock, 3);
-            worldgenlevel.setBlock(origin.south(3).west(2), outerBlock, 3);
-            worldgenlevel.setBlock(origin.north(2).east(3), outerBlock, 3);
-            worldgenlevel.setBlock(origin.north(2).west(3), outerBlock, 3);
-            worldgenlevel.setBlock(origin.south(2).east(3), outerBlock, 3);
-            worldgenlevel.setBlock(origin.south(2).west(3), outerBlock, 3);
-
-
-            worldgenlevel.setBlock(origin.below().north(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below().east(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below().south(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below().west(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below().north(2).east(), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below().north(2).west(), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below().south(2).east(), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below().south(2).west(), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below().north().east(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below().north().west(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below().south().east(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below().south().west(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below().north(2).east(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below().north(2).west(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below().south(2).east(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below().south(2).west(2), outerBlock, 2);
-
-            worldgenlevel.setBlock(origin.below().north(3), outerBlock, 3);
-            worldgenlevel.setBlock(origin.below().east(3), outerBlock, 3);
-            worldgenlevel.setBlock(origin.below().south(3), outerBlock, 3);
-            worldgenlevel.setBlock(origin.below().west(3), outerBlock, 3);
-            worldgenlevel.setBlock(origin.below().north(3).east(), outerBlock, 3);
-            worldgenlevel.setBlock(origin.below().north(3).west(), outerBlock, 3);
-            worldgenlevel.setBlock(origin.below().south(3).east(), outerBlock, 3);
-            worldgenlevel.setBlock(origin.below().south(3).west(), outerBlock, 3);
-            worldgenlevel.setBlock(origin.below().north().east(3), outerBlock, 3);
-            worldgenlevel.setBlock(origin.below().north().west(3), outerBlock, 3);
-            worldgenlevel.setBlock(origin.below().south().east(3), outerBlock, 3);
-            worldgenlevel.setBlock(origin.below().south().west(3), outerBlock, 3);
-            worldgenlevel.setBlock(origin.below().north(2).east(2), outerBlock, 3);
-            worldgenlevel.setBlock(origin.below().north(2).west(2), outerBlock, 3);
-            worldgenlevel.setBlock(origin.below().south(2).east(2), outerBlock, 3);
-            worldgenlevel.setBlock(origin.below().south(2).west(2), outerBlock, 3);
-            worldgenlevel.setBlock(origin.below().north(3).east(2), outerBlock, 3);
-            worldgenlevel.setBlock(origin.below().north(3).west(2), outerBlock, 3);
-            worldgenlevel.setBlock(origin.below().south(3).east(2), outerBlock, 3);
-            worldgenlevel.setBlock(origin.below().south(3).west(2), outerBlock, 3);
-            worldgenlevel.setBlock(origin.below().north(2).east(3), outerBlock, 3);
-            worldgenlevel.setBlock(origin.below().north(2).west(3), outerBlock, 3);
-            worldgenlevel.setBlock(origin.below().south(2).east(3), outerBlock, 3);
-            worldgenlevel.setBlock(origin.below().south(2).west(3), outerBlock, 3);
-
-
-            worldgenlevel.setBlock(origin.below(2).north(), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(2).east(), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(2).south(), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(2).west(), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(2).north().east(), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(2).north().west(), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(2).south().east(), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(2).south().west(), outerBlock, 2);
-
-            worldgenlevel.setBlock(origin.below(2).north(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(2).east(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(2).south(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(2).west(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(2).north(2).east(), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(2).north(2).west(), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(2).south(2).east(), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(2).south(2).west(), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(2).north().east(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(2).north().west(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(2).south().east(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(2).south().west(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(2).north(2).east(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(2).north(2).west(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(2).south(2).east(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(2).south(2).west(2), outerBlock, 2);
-
-
-            worldgenlevel.setBlock(origin.below(3), innerblock, 2);
-
-            worldgenlevel.setBlock(origin.below(3).north(), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(3).east(), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(3).south(), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(3).west(), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(3).north().east(), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(3).north().west(), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(3).south().east(), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(3).south().west(), outerBlock, 2);
-
-            worldgenlevel.setBlock(origin.below(3).north(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(3).east(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(3).south(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(3).west(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(3).north(2).east(), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(3).north(2).west(), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(3).south(2).east(), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(3).south(2).west(), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(3).north().east(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(3).north().west(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(3).south().east(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(3).south().west(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(3).north(2).east(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(3).north(2).west(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(3).south(2).east(2), outerBlock, 2);
-            worldgenlevel.setBlock(origin.below(3).south(2).west(2), outerBlock, 2);
-
-            if (ventDepth > 10) {
-                for (int y = 4; y <= (ventDepth / 2) + 4; y++) {
-                    worldgenlevel.setBlock(origin.below(y), liquidblock, 2);
-
-                    worldgenlevel.setBlock(origin.below(y).north(), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).east(), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).south(), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).west(), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).north().east(), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).north().west(), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).south().east(), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).south().west(), outerBlock, 2);
-
-                    worldgenlevel.setBlock(origin.below(y).north(2), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).east(2), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).south(2), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).west(2), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).north(2).east(), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).north(2).west(), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).south(2).east(), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).south(2).west(), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).north().east(2), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).north().west(2), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).south().east(2), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).south().west(2), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).north(2).east(2), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).north(2).west(2), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).south(2).east(2), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).south(2).west(2), outerBlock, 2);
+        if (suitableEnvironment && worldGenLevel.getBlockState(origin.below()).isSolid()) {
+            placePartialDiagonal(worldGenLevel, random, origin.above(), outerBlock, 3, 0.8, decorativeBlock);
+            placeDiagonal(worldGenLevel, random, origin.above(), outerBlock, 3, 3, 0.66, decorativeBlock);
+            placePartialDiagonal(worldGenLevel, random, origin, outerBlock, 3, 0.7, decorativeBlock);
+            placeStraight(worldGenLevel, random, origin, outerBlock, 3, 3, 1, decorativeBlock);
+            placeDiagonal(worldGenLevel, random, origin, outerBlock, 0, 3, 1.6, null);
+            placeStraight(worldGenLevel, random, origin.below(), outerBlock, 3, 3, 1, null);
+            placeDiagonal(worldGenLevel, random, origin.below(), outerBlock, 0, 3, 1.6, null);
+            if (depth > 10) {
+                for (int y = 1; y <= (depth / 2) + 1; y++) {
+                    placeStraight(worldGenLevel, random, origin.below(y), outerBlock, 0, 2, 0.8, null);
+                    placeDiagonal(worldGenLevel, random, origin.below(y), outerBlock, 0, 2, 0.75, null);
+                    placeBlock(worldGenLevel, random, origin.below(y), liquidBlock, 1, null);
                 }
 
-                for (int y = (ventDepth / 2) + 5; y <= ventDepth + 4; y++) {
-                    worldgenlevel.setBlock(origin.below(y), liquidblock, 2);
-
-                    worldgenlevel.setBlock(origin.below(y).north(), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).east(), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).south(), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).west(), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).north().east(), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).north().west(), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).south().east(), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).south().west(), outerBlock, 2);
-
-                    worldgenlevel.setBlock(origin.below(y).north(2), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).east(2), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).south(2), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).west(2), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).north(2).east(), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).north(2).west(), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).south(2).east(), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).south(2).west(), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).north().east(2), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).north().west(2), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).south().east(2), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).south().west(2), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).north(2).east(2), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).north(2).west(2), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).south(2).east(2), outerBlock, 2);
-                    worldgenlevel.setBlock(origin.below(y).south(2).west(2), outerBlock, 2);
+                for (int y = (depth / 2) + 2; y <= depth + 1; y++) {
+                    placeStraight(worldGenLevel, random, origin.below(y), outerBlock, 0, 1, 0.33, null);
+                    placeDiagonal(worldGenLevel, random, origin.below(y), outerBlock, 0, 1, 0.275, null);
+                    placeBlock(worldGenLevel, random, origin.below(y), liquidBlock, 1, null);
                 }
             }
+            if (underwater) {
+                worldGenLevel.setBlock(origin, Blocks.WATER.defaultBlockState(), UPDATE_ALL);
+            } else {
+                worldGenLevel.setBlock(origin, Blocks.AIR.defaultBlockState(), UPDATE_ALL);
+            }
+            worldGenLevel.setBlock(origin.below(), innerBlock.getState(random, origin.below()), UPDATE_ALL);
             return true;
         } else {
             return false;
+        }
+    }
+
+    private void placeStraight(WorldGenLevel worldGenLevel, RandomSource random, BlockPos blockPos, BlockStateProvider blockStateProvider, int minRadius, int maxRadius, double probability, @Nullable BlockStateProvider decorate) {
+        minRadius--;
+        for (int radius = minRadius; radius < maxRadius; radius++) {
+            placeBlock(worldGenLevel, random, blockPos.north(radius), blockStateProvider, probability, decorate);
+            placeBlock(worldGenLevel, random, blockPos.east(radius), blockStateProvider, probability, decorate);
+            placeBlock(worldGenLevel, random, blockPos.south(radius), blockStateProvider, probability, decorate);
+            placeBlock(worldGenLevel, random, blockPos.west(radius), blockStateProvider, probability, decorate);
+        }
+    }
+    private void placeDiagonal(WorldGenLevel worldGenLevel, RandomSource random, BlockPos blockPos, BlockStateProvider blockStateProvider, int minRadius, int maxRadius, double probability, @Nullable BlockStateProvider decorate) {
+        minRadius--;
+        for (int radius = minRadius; radius < maxRadius; radius++) {
+            placeBlock(worldGenLevel, random, blockPos.north(radius).east(), blockStateProvider, probability, decorate);
+            placeBlock(worldGenLevel, random, blockPos.north(radius).west(), blockStateProvider, probability, decorate);
+            placeBlock(worldGenLevel, random, blockPos.south(radius).west(), blockStateProvider, probability, decorate);
+            placeBlock(worldGenLevel, random, blockPos.south(radius).east(), blockStateProvider, probability, decorate);
+            placeBlock(worldGenLevel, random, blockPos.north().east(radius), blockStateProvider, probability, decorate);
+            placeBlock(worldGenLevel, random, blockPos.north().west(radius), blockStateProvider, probability, decorate);
+            placeBlock(worldGenLevel, random, blockPos.south().west(radius), blockStateProvider, probability, decorate);
+            placeBlock(worldGenLevel, random, blockPos.south().east(radius), blockStateProvider, probability, decorate);
+            placeBlock(worldGenLevel, random, blockPos.north(radius).east(radius), blockStateProvider, probability, decorate);
+            placeBlock(worldGenLevel, random, blockPos.north(radius).west(radius), blockStateProvider, probability, decorate);
+            placeBlock(worldGenLevel, random, blockPos.south(radius).west(radius), blockStateProvider, probability, decorate);
+            placeBlock(worldGenLevel, random, blockPos.south(radius).east(radius), blockStateProvider, probability, decorate);
+            placeBlock(worldGenLevel, random, blockPos.north(radius).east(radius), blockStateProvider, probability, decorate);
+            placeBlock(worldGenLevel, random, blockPos.north(radius).west(radius), blockStateProvider, probability, decorate);
+            placeBlock(worldGenLevel, random, blockPos.south(radius).west(radius), blockStateProvider, probability, decorate);
+            placeBlock(worldGenLevel, random, blockPos.south(radius).east(radius), blockStateProvider, probability, decorate);
+        }
+    }
+    private void placePartialDiagonal(WorldGenLevel worldGenLevel, RandomSource random, BlockPos blockPos, BlockStateProvider blockStateProvider, int radius, double probability, @Nullable BlockStateProvider decorate) {
+        placeBlock(worldGenLevel, random, blockPos.north(radius).east(), blockStateProvider, probability, decorate);
+        placeBlock(worldGenLevel, random, blockPos.north(radius).west(), blockStateProvider, probability, decorate);
+        placeBlock(worldGenLevel, random, blockPos.south(radius).west(), blockStateProvider, probability, decorate);
+        placeBlock(worldGenLevel, random, blockPos.south(radius).east(), blockStateProvider, probability, decorate);
+        placeBlock(worldGenLevel, random, blockPos.north().east(radius), blockStateProvider, probability, decorate);
+        placeBlock(worldGenLevel, random, blockPos.north().west(radius), blockStateProvider, probability, decorate);
+        placeBlock(worldGenLevel, random, blockPos.south().west(radius), blockStateProvider, probability, decorate);
+        placeBlock(worldGenLevel, random, blockPos.south().east(radius), blockStateProvider, probability, decorate);
+    }
+    private void placeBlock(WorldGenLevel worldGenLevel, RandomSource random, BlockPos blockPos, BlockStateProvider blockStateProvider, double probability, @Nullable BlockStateProvider decorate) {
+        boolean passedProbability = false;
+        if (probability >= 1) {
+            passedProbability = true;
+        } else {
+            int randomNumber = (int)(Math.random()*((100))+1);
+            if (randomNumber < probability*100) {
+                passedProbability = true;
+            }
+        }
+        if (passedProbability) {
+            BlockState blockState = blockStateProvider.getState(random, blockPos);
+            worldGenLevel.setBlock(blockPos, blockState, UPDATE_ALL);
+            if (decorate != null) {
+                boolean passedDecorateProbability = false;
+                double decorateProbability = probability / 3;
+                if (decorateProbability >= 1) {
+                    passedDecorateProbability = true;
+                } else {
+                    int randomNumber2 = (int) (Math.random() * ((100)) + 1);
+                    if (randomNumber2 < decorateProbability * 100) {
+                        passedDecorateProbability = true;
+                    }
+                }
+                if (passedDecorateProbability) {
+                    BlockPos offsetPos = randomOffset(blockPos);
+                    BlockState decorateBlockState = decorate.getState(random, offsetPos);
+                    worldGenLevel.setBlock(offsetPos, decorateBlockState, UPDATE_ALL);
+                    if (worldGenLevel.getBlockState(offsetPos.below()).isAir()) {
+                        worldGenLevel.setBlock(offsetPos.below(), blockState, UPDATE_ALL);
+                    }
+                }
+            }
+        }
+    }
+
+    private BlockPos randomOffset(BlockPos blockPos) {
+        int randomNumber = (int)(Math.random()*((15))+1);
+        if (randomNumber <= 7) {
+            return blockPos.above();
+        } else if (randomNumber == 8) {
+            return blockPos.north();
+        } else if (randomNumber == 9) {
+            return blockPos.east();
+        } else if (randomNumber == 10) {
+            return blockPos.south();
+        } else if (randomNumber == 11) {
+            return blockPos.west();
+        } else if (randomNumber == 12) {
+            return blockPos.north().east();
+        } else if (randomNumber == 13) {
+            return blockPos.north().west();
+        } else if (randomNumber == 14) {
+            return blockPos.south().east();
+        } else {
+            return blockPos.south().west();
         }
     }
 }
