@@ -7,6 +7,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -49,15 +50,15 @@ public class ActiveMoltenBlockEntity extends BlockEntity {
         String name = blockState.getBlock().builtInRegistryHolder().key().location().getPath().substring(14);
         List<Block> conductiveBlocks = new ArrayList<>(List.of());
         List<Block> convertibleBlocks = new ArrayList<>(List.of());
-        List<JsonElement> conductiveList = conductiveMap.get(new ResourceLocation("molten_vents", name)).getAsJsonObject().get("values").getAsJsonArray().asList();
-        for (JsonElement jsonElement : conductiveList) {
-            String blockName = jsonElement.getAsJsonPrimitive().getAsString();
-            conductiveBlocks.add(BuiltInRegistries.BLOCK.get(new ResourceLocation(blockName)));
+        JsonArray conductiveList = Collections.singletonList(conductiveMap.get(new ResourceLocation("molten_vents", name)).getAsJsonObject().get("values").getAsJsonArray()).get(0);
+        for (int i = 0; i < conductiveList.size(); i++) {
+            JsonElement blockName = conductiveList.get(i);
+            conductiveBlocks.add(BuiltInRegistries.BLOCK.get(new ResourceLocation(blockName.toString().substring(1, blockName.toString().length()-1))));
         }
-        List<JsonElement> convertibleList = convertibleMap.get(new ResourceLocation("molten_vents", name)).getAsJsonObject().get("values").getAsJsonArray().asList();
-        for (JsonElement jsonElement : convertibleList) {
-            String blockName = jsonElement.getAsJsonPrimitive().getAsString();
-            convertibleBlocks.add(BuiltInRegistries.BLOCK.get(new ResourceLocation(blockName)));
+        JsonArray convertibleList = Collections.singletonList(convertibleMap.get(new ResourceLocation("molten_vents", name)).getAsJsonObject().get("values").getAsJsonArray()).get(0);
+        for (int i = 0; i < convertibleList.size(); i++) {
+            JsonElement blockName = convertibleList.get(i);
+            convertibleBlocks.add(BuiltInRegistries.BLOCK.get(new ResourceLocation(blockName.toString().substring(1, blockName.toString().length()-1))));
         }
         return(Map.of(1, conductiveBlocks, 2, convertibleBlocks));
     }
@@ -144,7 +145,7 @@ public class ActiveMoltenBlockEntity extends BlockEntity {
 
     private static List<BlockPos> convertTouching(List<Block> convertibleBlocks, List<Block> conductiveBlocks, BlockPos pos, WorldGenLevel level) {
         List<BlockPos> lavaBlocks = getLavaTouching(convertibleBlocks, pos, level);
-        List<BlockPos> convertedBlocks = new ArrayList<>(List.of());
+        List<BlockPos> touchingBlocks = getLavaTouching(conductiveBlocks, pos, level);
         if (lavaBlocks != null && !lavaBlocks.isEmpty()) {
             for (int i = 0; i < lavaBlocks.size(); ++i) {
                 BlockPos lavaPos = lavaBlocks.get(i);
@@ -153,11 +154,10 @@ public class ActiveMoltenBlockEntity extends BlockEntity {
                     level.playSound(null, lavaPos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, 1.0f, 1.0f);
                     level.getServer().getLevel(level.getLevel().dimension()).sendParticles(ParticleTypes.LARGE_SMOKE, (double)lavaPos.getX() + 0.5D, (double)lavaPos.getY() + 0.25D, (double)lavaPos.getZ() + 0.5D, 8, 0.5D, 0.25D, 0.5D, 0.0D);
                 }
-                convertedBlocks.add(lavaPos);
             }
         }
-        if (convertedBlocks.size() > 0) {
-            return convertedBlocks;
+        if (touchingBlocks.size() > 0) {
+            return touchingBlocks;
         }
         return null;
     }
