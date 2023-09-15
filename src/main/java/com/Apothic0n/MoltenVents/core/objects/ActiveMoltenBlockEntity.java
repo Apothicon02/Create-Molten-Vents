@@ -142,7 +142,7 @@ public class ActiveMoltenBlockEntity extends BlockEntity {
 
     private static List<BlockPos> convertTouching(List<Block> convertibleBlocks, List<Block> conductiveBlocks, BlockPos pos, WorldGenLevel level) {
         List<BlockPos> lavaBlocks = getLavaTouching(convertibleBlocks, pos, level);
-        List<BlockPos> convertedBlocks = new ArrayList<>(List.of());
+        List<BlockPos> touchingBlocks = getLavaTouching(conductiveBlocks, pos, level);
         if (lavaBlocks != null && !lavaBlocks.isEmpty()) {
             for (int i = 0; i < lavaBlocks.size(); ++i) {
                 BlockPos lavaPos = lavaBlocks.get(i);
@@ -151,11 +151,10 @@ public class ActiveMoltenBlockEntity extends BlockEntity {
                     level.playSound(null, lavaPos, SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, 1.0f, 1.0f);
                     level.getServer().getLevel(level.getLevel().dimension()).sendParticles(ParticleTypes.LARGE_SMOKE, (double)lavaPos.getX() + 0.5D, (double)lavaPos.getY() + 0.25D, (double)lavaPos.getZ() + 0.5D, 8, 0.5D, 0.25D, 0.5D, 0.0D);
                 }
-                convertedBlocks.add(lavaPos);
             }
         }
-        if (convertedBlocks.size() > 0) {
-            return convertedBlocks;
+        if (touchingBlocks.size() > 0) {
+            return touchingBlocks;
         }
         return null;
     }
