@@ -155,19 +155,19 @@ public class CommonEvents {
             hasCreatedFeatures = true;
         }
         if(!event.getCategory().equals(Biome.BiomeCategory.NETHER) && !event.getCategory().equals(Biome.BiomeCategory.THEEND)) {
-            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, asurineVent);
-            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, crimsiteVent);
-            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, veridiumVent);
-            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ochrumVent);
-            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, scorchiaVent);
-            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, scoriaVent);
+            event.getGeneration().addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, asurineVent);
+            event.getGeneration().addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, crimsiteVent);
+            event.getGeneration().addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, veridiumVent);
+            event.getGeneration().addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, ochrumVent);
+            event.getGeneration().addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, scorchiaVent);
+            event.getGeneration().addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, scoriaVent);
 
-            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, aquaticAsurineVent);
-            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, aquaticCrimsiteVent);
-            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, aquaticVeridiumVent);
-            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, aquaticOchrumvent);
-            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, aquaticScorchiaVent);
-            event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, aquaticScoriaVent);
+            event.getGeneration().addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, aquaticAsurineVent);
+            event.getGeneration().addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, aquaticCrimsiteVent);
+            event.getGeneration().addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, aquaticVeridiumVent);
+            event.getGeneration().addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, aquaticOchrumvent);
+            event.getGeneration().addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, aquaticScorchiaVent);
+            event.getGeneration().addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, aquaticScoriaVent);
         }
     }
 }
