@@ -17,7 +17,7 @@ import java.util.List;
 public class MoltenVentsJsonReader {
     public static List<String> customBlocks;
     public static void main() throws Exception {
-        final Path moltenVentsCustomBlocks = Path.of(FMLPaths.MODSDIR.get().toString() + "/molten_vents_custom_blocks.json");
+        final Path moltenVentsCustomBlocks = Path.of(FMLPaths.CONFIGDIR.get() + "/molten_vents_custom_blocks.json");
         Gson gson = new Gson();
         if (!Files.exists(moltenVentsCustomBlocks)) {
             JsonWriter writer = new JsonWriter(new FileWriter(moltenVentsCustomBlocks.toString()));
