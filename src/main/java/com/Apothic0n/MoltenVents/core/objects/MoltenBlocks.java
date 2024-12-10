@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.DeferredRegister;
@@ -58,7 +59,7 @@ public final class MoltenBlocks {
     public static Map<RegistryObject<Block>, RegistryObject<Block>> createMoltenBlocks(String blockName) {
         return Map.of(
             BLOCKS.register("dormant_molten_" + blockName, () ->
-                    new DormantMoltenBlock(BlockBehaviour.Properties.copy(Blocks.TUFF).sound(SoundType.TUFF))),
+                    new DormantMoltenBlock(BlockBehaviour.Properties.copy(Blocks.TUFF).sound(SoundType.TUFF).pushReaction(PushReaction.BLOCK))),
 
             BLOCKS.register("active_molten_" + blockName, () ->
                     new ActiveMoltenBlock(BlockBehaviour.Properties.copy(Blocks.TUFF).explosionResistance(1200).sound(SoundType.TUFF).lightLevel((brightness) -> {return 15;})))
