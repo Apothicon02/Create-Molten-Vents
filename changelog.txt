@@ -37,7 +37,7 @@
            Add config option and skip checking for empty ingredients in shapeless recipe deserialization
  - 40.0.43 Add EnderManAngerEvent to make it possible to prevent endermen getting angry at a player based on more then their helmet. (#8406)
  - 40.0.42 Fix misaligned patch in BlockEntity.save.
- - 40.0.41 Expose `getHolder()` method on RegistryObject, as helper for when absolutely necessary to pass  into Vanilla code. (#8548)
+ - 40.0.41 Expose `getHolder()` method on DeferredHolder, as helper for when absolutely necessary to pass  into Vanilla code. (#8548)
            It is recommended you avoid if you can.
  - 40.0.40 Fix return value of Recipe#isIncomplete being inaccurate for empty tags (#8549)
  - 40.0.39 Simplfy default behavior of isSimple (#8543)
@@ -145,7 +145,7 @@
  - 39.0.78 Add missing Locale parameter to String.format calls, Fixes getArmorResource functionality on some locaales. (#8463)
  - 39.0.77 Allow items to hide parts of their tooltips by default (#8358)
  - 39.0.76 Prevent 1.x Branches being treated as Pull Requests. (#8443)
- - 39.0.75 Fix RegistryObject not working if created after registry events (#8383)
+ - 39.0.75 Fix DeferredHolder not working if created after registry events (#8383)
  - 39.0.74 Add support for tagging StructureFeatures (#8408)
  - 39.0.73 Re-added the patch for LivingExperienceDropEvent and enable it for dragons (#8388)
  - 39.0.72 Implement getPickupSound on ForgeFlowingFluid (#8374)

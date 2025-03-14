@@ -50,15 +50,15 @@ public class ActiveMoltenBlockEntity extends BlockEntity {
         String name = blockState.getBlock().builtInRegistryHolder().key().location().getPath().substring(14);
         List<Block> conductiveBlocks = new ArrayList<>(List.of());
         List<Block> convertibleBlocks = new ArrayList<>(List.of());
-        JsonArray conductiveList = Collections.singletonList(conductiveMap.get(new ResourceLocation("molten_vents", name)).getAsJsonObject().get("values").getAsJsonArray()).get(0);
+        JsonArray conductiveList = Collections.singletonList(conductiveMap.get(ResourceLocation.fromNamespaceAndPath("molten_vents", name)).getAsJsonObject().get("values").getAsJsonArray()).get(0);
         for (int i = 0; i < conductiveList.size(); i++) {
             JsonElement blockName = conductiveList.get(i);
-            conductiveBlocks.add(BuiltInRegistries.BLOCK.get(new ResourceLocation(blockName.toString().substring(1, blockName.toString().length()-1))));
+            conductiveBlocks.add(BuiltInRegistries.BLOCK.get(ResourceLocation.parse(blockName.toString().substring(1, blockName.toString().length()-1))));
         }
-        JsonArray convertibleList = Collections.singletonList(convertibleMap.get(new ResourceLocation("molten_vents", name)).getAsJsonObject().get("values").getAsJsonArray()).get(0);
+        JsonArray convertibleList = Collections.singletonList(convertibleMap.get(ResourceLocation.fromNamespaceAndPath("molten_vents", name)).getAsJsonObject().get("values").getAsJsonArray()).get(0);
         for (int i = 0; i < convertibleList.size(); i++) {
             JsonElement blockName = convertibleList.get(i);
-            convertibleBlocks.add(BuiltInRegistries.BLOCK.get(new ResourceLocation(blockName.toString().substring(1, blockName.toString().length()-1))));
+            convertibleBlocks.add(BuiltInRegistries.BLOCK.get(ResourceLocation.parse(blockName.toString().substring(1, blockName.toString().length()-1))));
         }
         return(Map.of(1, conductiveBlocks, 2, convertibleBlocks));
     }

@@ -1,13 +1,13 @@
 package com.Apothic0n.MoltenVents.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class CommonConfig {
-    public static ForgeConfigSpec.BooleanValue useSource;
-    public static ForgeConfigSpec.ConfigValue<? extends Integer> ventDepth;
-    public static ForgeConfigSpec.BooleanValue generateUnderwater;
+    public static ModConfigSpec.BooleanValue useSource;
+    public static ModConfigSpec.ConfigValue<? extends Integer> ventDepth;
+    public static ModConfigSpec.BooleanValue generateUnderwater;
 
-    public static void registerCommonConfig(ForgeConfigSpec.Builder COMMON_BUILDER) {
+    public static void registerCommonConfig(ModConfigSpec.Builder COMMON_BUILDER) {
         COMMON_BUILDER.comment("General settings for Molten Vents").push("common");
 
         useSource = COMMON_BUILDER

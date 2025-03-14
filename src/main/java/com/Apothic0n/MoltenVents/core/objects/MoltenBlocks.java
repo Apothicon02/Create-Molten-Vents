@@ -2,27 +2,20 @@ package com.Apothic0n.MoltenVents.core.objects;
 
 import com.Apothic0n.MoltenVents.MoltenVents;
 import com.Apothic0n.MoltenVents.MoltenVentsJsonReader;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.PushReaction;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
-import org.apache.commons.io.IOUtils;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import net.neoforged.bus.api.IEventBus;
 
-import java.io.File;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,16 +24,16 @@ import java.util.function.Supplier;
 public final class MoltenBlocks {
     private MoltenBlocks() {}
 
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MoltenVents.MODID);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Registries.BLOCK, MoltenVents.MODID);
 
-    public static final Supplier<Block> Asurine = () -> BuiltInRegistries.BLOCK.get(new ResourceLocation("create", "asurine"));
-    public static final Supplier<Block> Veridium = () -> BuiltInRegistries.BLOCK.get(new ResourceLocation("create", "veridium"));
-    public static final Supplier<Block> Crimsite = () -> BuiltInRegistries.BLOCK.get(new ResourceLocation("create", "crimsite"));
-    public static final Supplier<Block> Ochrum = () -> BuiltInRegistries.BLOCK.get(new ResourceLocation("create", "ochrum"));
-    public static final Supplier<Block> Scorchia = () -> BuiltInRegistries.BLOCK.get(new ResourceLocation("create", "scorchia"));
-    public static final Supplier<Block> Scoria = () -> BuiltInRegistries.BLOCK.get(new ResourceLocation("create", "scoria"));
+    public static final Supplier<Block> Asurine = () -> BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath("create", "asurine"));
+    public static final Supplier<Block> Veridium = () -> BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath("create", "veridium"));
+    public static final Supplier<Block> Crimsite = () -> BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath("create", "crimsite"));
+    public static final Supplier<Block> Ochrum = () -> BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath("create", "ochrum"));
+    public static final Supplier<Block> Scorchia = () -> BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath("create", "scorchia"));
+    public static final Supplier<Block> Scoria = () -> BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath("create", "scoria"));
 
-    public static final List<Map<RegistryObject<Block>, RegistryObject<Block>>> moltenBlocks = new ArrayList<>(List.of());
+    public static final List<Map<DeferredHolder<Block, Block>, DeferredHolder<Block, Block>>> moltenBlocks = new ArrayList<>(List.of());
 
     public static List<Map<Block, Block>> getMoltenBlocks() {
         List<Map<Block, Block>> moltenBlocksBlocks = new ArrayList<>(List.of());
@@ -56,13 +49,13 @@ public final class MoltenBlocks {
         }
     }
 
-    public static Map<RegistryObject<Block>, RegistryObject<Block>> createMoltenBlocks(String blockName) {
+    public static Map<DeferredHolder<Block, Block>, DeferredHolder<Block, Block>> createMoltenBlocks(String blockName) {
         return Map.of(
             BLOCKS.register("dormant_molten_" + blockName, () ->
-                    new DormantMoltenBlock(BlockBehaviour.Properties.copy(Blocks.TUFF).sound(SoundType.TUFF).pushReaction(PushReaction.BLOCK))),
+                    new DormantMoltenBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TUFF).sound(SoundType.TUFF).pushReaction(PushReaction.BLOCK))),
 
             BLOCKS.register("active_molten_" + blockName, () ->
-                    new ActiveMoltenBlock(BlockBehaviour.Properties.copy(Blocks.TUFF).explosionResistance(1200).sound(SoundType.TUFF).lightLevel((brightness) -> {return 15;})))
+                    new ActiveMoltenBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TUFF).explosionResistance(1200).sound(SoundType.TUFF).lightLevel((brightness) -> {return 15;})))
         );
     }
 
