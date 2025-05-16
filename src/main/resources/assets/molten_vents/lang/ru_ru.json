@@ -1,0 +1,15 @@
+{
+  "block.molten_vents.active_molten_asurine": "Активный расплавленный азурин",
+  "block.molten_vents.active_molten_veridium": "Активный расплавленный веридий",
+  "block.molten_vents.active_molten_crimsite": "Активный расплавленный кримзит",
+  "block.molten_vents.active_molten_ochrum": "Активный расплавленный охрум",
+  "block.molten_vents.active_molten_scorchia": "Активный расплавленный тёмный пепел",
+  "block.molten_vents.active_molten_scoria": "Активный расплавленный пепел",
+
+  "block.molten_vents.dormant_molten_asurine": "Дремлющий расплавленный азурин",
+  "block.molten_vents.dormant_molten_veridium": "Дремлющий расплавленный веридий",
+  "block.molten_vents.dormant_molten_crimsite": "Дремлющий расплавленный кримзит",
+  "block.molten_vents.dormant_molten_ochrum": "Дремлющий расплавленный охрум",
+  "block.molten_vents.dormant_molten_scorchia": "Дремлющий расплавленный тёмный пепел",
+  "block.molten_vents.dormant_molten_scoria": "Дремлющий расплавленный пепел"
+}
