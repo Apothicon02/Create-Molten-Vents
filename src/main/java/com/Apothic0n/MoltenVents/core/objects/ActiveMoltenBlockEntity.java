@@ -1,13 +1,13 @@
 package com.Apothic0n.MoltenVents.core.objects;
 
+import com.Apothic0n.MoltenVents.MoltenVentsJsonReader;
 import com.Apothic0n.MoltenVents.config.CommonConfig;
-import com.Apothic0n.MoltenVents.core.MoltenVentsConductiveData;
-import com.Apothic0n.MoltenVents.core.MoltenVentsConvertibleData;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -17,11 +17,16 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.fml.loading.FMLPaths;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 import static com.Apothic0n.MoltenVents.core.objects.MoltenBlockEntities.getMoltenBlockEntities;
@@ -32,8 +37,10 @@ public class ActiveMoltenBlockEntity extends BlockEntity {
         super(activeMoltenBlockEntity(blockState), blockPos, blockState);
     }
 
-    private static final Map<ResourceLocation, JsonElement> conductiveMap = MoltenVentsConductiveData.conductiveBlocksMap;
-    private static final Map<ResourceLocation, JsonElement> convertibleMap = MoltenVentsConvertibleData.convertibleBlocksMap;
+    public static String configDir = FMLPaths.CONFIGDIR.get() + "/molten_vents";
+    private static List<String> readBlocks = new ArrayList<>(List.of());
+    private static Map<String, List<String>> conductiveMap = new HashMap<>(Map.of());
+    private static Map<String, List<String>> convertibleMap = new HashMap<>(Map.of());
     private static BlockEntityType<?> activeMoltenBlockEntity(BlockState blockState) {
         List<Map<Block, BlockEntityType<?>>> moltenBlockEntities = getMoltenBlockEntities();
         BlockEntityType<?> activeMoltenBlockEntity = null;
@@ -46,21 +53,52 @@ public class ActiveMoltenBlockEntity extends BlockEntity {
         return(activeMoltenBlockEntity);
     }
 
-    private static Map<Integer, List<Block>> getLists(BlockState blockState) {
+    public static void reload() {
+        readBlocks = new ArrayList<>(List.of());
+        conductiveMap = new HashMap<>(Map.of());
+        convertibleMap = new HashMap<>(Map.of());
+    }
+
+    private static Map<Integer, List<Block>> getLists(BlockState blockState) throws IOException {
         String name = blockState.getBlock().builtInRegistryHolder().key().location().getPath().substring(14);
+        if (!readBlocks.contains(name)) {
+            readBlocks.add(name);
+            Gson gson = new Gson();
+            Path conductive = Path.of(configDir + "/conductive/" + name + ".json");
+            Path convertible = Path.of(configDir + "/convertible/" + name + ".json");
+            MoltenVentsJsonReader.createConductive(gson, conductive, name);
+
+            JsonReader reader = new JsonReader(new FileReader(conductive.toString()));
+            JsonObject data = gson.fromJson(reader, JsonObject.class);
+            JsonArray conductiveBlockNames = data.get("values").getAsJsonArray();
+            List<String> tempConductiveBlocks = new ArrayList<>(List.of());
+            for (int i = 0; i < conductiveBlockNames.size(); i++) {
+                tempConductiveBlocks.add(conductiveBlockNames.get(i).getAsString());
+            }
+            conductiveMap.put(name, tempConductiveBlocks);
+
+            MoltenVentsJsonReader.createConvertible(gson, convertible);
+
+            reader = new JsonReader(new FileReader(convertible.toString()));
+            data = gson.fromJson(reader, JsonObject.class);
+            JsonArray convertibleBlockNames = data.get("values").getAsJsonArray();
+            List<String> tempConvertibleBlocks = new ArrayList<>(List.of());
+            for (int i = 0; i < convertibleBlockNames.size(); i++) {
+                tempConvertibleBlocks.add(convertibleBlockNames.get(i).getAsString());
+            }
+            convertibleMap.put(name, tempConvertibleBlocks);
+        }
         List<Block> conductiveBlocks = new ArrayList<>(List.of());
         List<Block> convertibleBlocks = new ArrayList<>(List.of());
-        JsonArray conductiveList = Collections.singletonList(conductiveMap.get(ResourceLocation.fromNamespaceAndPath("molten_vents", name)).getAsJsonObject().get("values").getAsJsonArray()).get(0);
-        for (int i = 0; i < conductiveList.size(); i++) {
-            JsonElement blockName = conductiveList.get(i);
-            conductiveBlocks.add(BuiltInRegistries.BLOCK.get(ResourceLocation.parse(blockName.toString().substring(1, blockName.toString().length()-1))));
+        List<String> conductiveList = conductiveMap.get(name);
+        for (String blockName : conductiveList) {
+            conductiveBlocks.add(BuiltInRegistries.BLOCK.get(ResourceLocation.parse(blockName)));
         }
-        JsonArray convertibleList = Collections.singletonList(convertibleMap.get(ResourceLocation.fromNamespaceAndPath("molten_vents", name)).getAsJsonObject().get("values").getAsJsonArray()).get(0);
-        for (int i = 0; i < convertibleList.size(); i++) {
-            JsonElement blockName = convertibleList.get(i);
-            convertibleBlocks.add(BuiltInRegistries.BLOCK.get(ResourceLocation.parse(blockName.toString().substring(1, blockName.toString().length()-1))));
+        List<String> convertibleList = convertibleMap.get(name);
+        for (String blockName : convertibleList) {
+            convertibleBlocks.add(BuiltInRegistries.BLOCK.get(ResourceLocation.parse(blockName)));
         }
-        return(Map.of(1, conductiveBlocks, 2, convertibleBlocks));
+        return (Map.of(1, conductiveBlocks, 2, convertibleBlocks));
     }
 
     public static int spreadDistance = 5; //Max 5
@@ -68,7 +106,12 @@ public class ActiveMoltenBlockEntity extends BlockEntity {
     public static <T extends BlockEntity> void tick(Level level, BlockPos blockPos, BlockState blockState, T t) {
         if (!level.isClientSide) {
             ServerLevel serverLevel = Objects.requireNonNull(level.getServer()).getLevel(level.dimension());
-            Map<Integer, List<Block>> lists = getLists(blockState);
+            Map<Integer, List<Block>> lists = null;
+            try {
+                lists = getLists(blockState);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             List<Block> conductiveBlocks = lists.get(1);
             List<Block> convertibleBlocks = lists.get(2);
             spreadBlock(conductiveBlocks, convertibleBlocks, blockPos.above(), serverLevel);

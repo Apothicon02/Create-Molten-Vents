@@ -1,6 +1,7 @@
 package com.Apothic0n.MoltenVents.api.biome.features.types;
 
 import com.Apothic0n.MoltenVents.api.biome.features.configurations.MoltenVentConfiguration;
+import com.Apothic0n.MoltenVents.config.CommonConfig;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -30,6 +31,9 @@ public class MoltenVentFeature extends Feature<MoltenVentConfiguration> {
         BlockStateProvider innerBlock = ventConfiguration.getInnerBlock();
         BlockStateProvider liquidBlock = ventConfiguration.getLiquidBlock();
         Boolean underwater = ventConfiguration.underwater;
+        if ((underwater && !CommonConfig.generateUnderwaterVents.get()) || !underwater && !CommonConfig.generateLandVents.get()) {
+            return false;
+        }
         int depth = ventConfiguration.getDepth().sample(random);
         boolean suitableEnvironment = false;
 
